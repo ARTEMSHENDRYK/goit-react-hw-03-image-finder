@@ -4,7 +4,7 @@ import css from "./ImageGalleryItem.module.css";
 
 class ImageGalleryItem extends React.Component {
   render() {
-    const { tags, webformatURL, largeImageURL} = this.props;
+    const { tags, webformatURL} = this.props;
   
     return (
       <li className={css.ImageGalleryItem}>
