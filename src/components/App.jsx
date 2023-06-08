@@ -26,6 +26,7 @@ class App extends React.Component {
       this.setState({ isLoading: true });
       pixabayAPI.resetPage();
       pixabayAPI.query = searchQuery;
+      this.setState({ hits: [] });
       setTimeout(async () => {         
           const response = await pixabayAPI.fetchHits();
           // console.log(response);
@@ -35,7 +36,6 @@ class App extends React.Component {
     }
 
     if (isLoading && prevState.searchQuery === searchQuery) {
-      // this.setState({ isLoading: true });     
       setTimeout(async () => {         
           const response = await pixabayAPI.fetchHits();
           // console.log(response);
