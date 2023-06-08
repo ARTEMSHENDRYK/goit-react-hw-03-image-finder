@@ -4,14 +4,16 @@ import css from "./Button.module.css";
 
 class Button extends React.Component {
   render() {
+    const { handleLoadMore } = this.props;
+
     return (
-      <div></div>
+        <button className={css.Button} type="button" onClick={handleLoadMore}>Load more</button>
     )
   }
 }
 
 Button.propTypes = {
-
+  handleLoadMore: PropTypes.func.isRequired,
 }
 
 export default Button;
