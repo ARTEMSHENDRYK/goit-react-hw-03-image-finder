@@ -12,53 +12,58 @@ class App extends React.Component {
   state = {
     searchQuery: '',
     hits: [],
+    hitsFlag: false,
     isLoading: false,
   }
 
-  handleSubmit = ({ searchQuery }) => {
-    this.setState({ searchQuery: searchQuery.trim() });
-  }
-
   async componentDidUpdate(_prevProps, prevState) {
-    const { searchQuery, hits, isLoading } = this.state;  
+    const { searchQuery, hits, isLoading, hitsFlag } = this.state;  
 
     if (prevState.searchQuery !== searchQuery) {
       this.setState({ isLoading: true });
       pixabayAPI.resetPage();
       pixabayAPI.query = searchQuery;
       this.setState({ hits: [] });
-      setTimeout(async () => {         
-          const response = await pixabayAPI.fetchHits();
-          // console.log(response);
-          this.setState({ hits: response.hits });
-          this.setState({ isLoading: false });
-      }, 2000);
+      const response = await pixabayAPI.fetchHits();
+      this.setState({ hits: response.hits });
+      this.checkHits(response.hits.length);
+      this.setState({ isLoading: false });
     }
 
-    if (isLoading && prevState.searchQuery === searchQuery) {
-      setTimeout(async () => {         
-          const response = await pixabayAPI.fetchHits();
-          // console.log(response);
-          this.setState({ hits: [...hits, ...response.hits] });
-          this.setState({ isLoading: false });
-      }, 2000);
+    if (isLoading && hitsFlag) {
+      const response = await pixabayAPI.fetchHits();
+      this.setState({ hits: [...hits, ...response.hits] });
+      this.checkHits(response.hits.length);
+      this.setState({ isLoading: false });
     }
+  }
+
+  handleSubmit = ({ searchQuery }) => {
+    this.setState({ searchQuery: searchQuery.trim() });
   }
 
   handleLoadMore = () => {
     this.setState({ isLoading: true }); 
   }
 
+  checkHits = (hitsLength) => {
+    if (hitsLength === pixabayAPI.perPage) {
+      this.setState({ hitsFlag: true })
+    }
+    else {
+      this.setState({ hitsFlag: false })
+    }
+  }
 
   render() {
-    const { hits, isLoading } = this.state; 
+    const { hits, isLoading, hitsFlag } = this.state; 
 
     return(
       <div className={css.App}>
         <Searchbar onSubmit={this.handleSubmit} />
         {hits.length > 0 && <ImageGallery hits={hits} />}
         {isLoading && <Loader />} 
-        <Button handleLoadMore={this.handleLoadMore} />
+        {hitsFlag && <Button handleLoadMore={this.handleLoadMore} />}
       </div>
     );
   }

@@ -29,6 +29,7 @@ class PixabayAPI {
           largeImageURL: hit.largeImageURL,
         }
       ))
+
       this.incrementPage();
       return response.data;
     }
