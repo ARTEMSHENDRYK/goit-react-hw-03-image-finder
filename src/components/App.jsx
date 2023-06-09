@@ -18,7 +18,7 @@ class App extends React.Component {
   }
 
   async componentDidUpdate(_prevProps, prevState) {
-    const { searchQuery, hits, loadMore } = this.state;  
+    const { searchQuery, hits, hitsFlag, loadMore } = this.state;  
 
     if (prevState.searchQuery !== searchQuery) {
       this.setState({ isLoading: true });
@@ -31,7 +31,7 @@ class App extends React.Component {
       this.setState({ isLoading: false });
     }
 
-    if (loadMore) {
+    if (loadMore && hitsFlag) {
       const response = await pixabayAPI.fetchHits();
       this.setState({ hits: [...hits, ...response.hits] });
       this.checkHits(response.hits.length);
