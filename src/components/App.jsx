@@ -32,11 +32,11 @@ class App extends React.Component {
     }
 
     if (loadMore && hitsFlag) {
+      this.smoothScroll();
       const response = await pixabayAPI.fetchHits();
       this.setState({ hits: [...hits, ...response.hits] });
       this.checkHits(response.hits.length);
       this.setState({ isLoading: false });
-      this.smoothScroll();
       this.setState({ loadMore: false });
     }
   }
