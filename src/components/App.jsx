@@ -14,10 +14,11 @@ class App extends React.Component {
     hits: [],
     hitsFlag: false,
     isLoading: false,
+    loadMore: false,
   }
 
   async componentDidUpdate(_prevProps, prevState) {
-    const { searchQuery, hits, isLoading, hitsFlag } = this.state;  
+    const { searchQuery, hits, loadMore } = this.state;  
 
     if (prevState.searchQuery !== searchQuery) {
       this.setState({ isLoading: true });
@@ -30,12 +31,13 @@ class App extends React.Component {
       this.setState({ isLoading: false });
     }
 
-    if (isLoading && hitsFlag) {
+    if (loadMore) {
       const response = await pixabayAPI.fetchHits();
       this.setState({ hits: [...hits, ...response.hits] });
       this.checkHits(response.hits.length);
       this.setState({ isLoading: false });
       this.smoothScroll();
+      this.setState({ loadMore: false });
     }
   }
 
@@ -44,7 +46,7 @@ class App extends React.Component {
   }
 
   handleLoadMore = () => {
-    this.setState({ isLoading: true });
+    this.setState({ loadMore: true });
   }
 
   checkHits = (hitsLength) => {
