@@ -32,7 +32,6 @@ class App extends React.Component {
     }
 
     if (loadMore && hitsFlag) {
-      this.setState({ isLoading: true });
       const response = await pixabayAPI.fetchHits();
       this.setState({ hits: [...hits, ...response.hits] });
       this.checkHits(response.hits.length);
@@ -47,6 +46,7 @@ class App extends React.Component {
   }
 
   handleLoadMore = () => {
+    this.setState({ isLoading: true });
     this.setState({ loadMore: true });
   }
 
