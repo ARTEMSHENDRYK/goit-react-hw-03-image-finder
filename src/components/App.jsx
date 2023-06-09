@@ -35,6 +35,7 @@ class App extends React.Component {
       this.setState({ hits: [...hits, ...response.hits] });
       this.checkHits(response.hits.length);
       this.setState({ isLoading: false });
+      this.smoothScroll();
     }
   }
 
@@ -43,7 +44,7 @@ class App extends React.Component {
   }
 
   handleLoadMore = () => {
-    this.setState({ isLoading: true }); 
+    this.setState({ isLoading: true });
   }
 
   checkHits = (hitsLength) => {
@@ -53,6 +54,14 @@ class App extends React.Component {
     else {
       this.setState({ hitsFlag: false })
     }
+  }      
+
+  smoothScroll() {
+    const { height: cardHeight } = document.querySelector("ul").firstElementChild.getBoundingClientRect();
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: "smooth",
+    });
   }
 
   render() {
