@@ -28,9 +28,6 @@ class Searchbar extends React.Component {
     return (
       <header className={css.Searchbar}>
         <form className={css.SearchForm} onSubmit={this.handleSubmit}>
-          <button type="submit" className={css["SearchForm-button"]}>
-            <span className={css["SearchForm-button-label"]}>Search</span>
-          </button>
           <input
             className={css["SearchForm-input"]}
             type="text"
@@ -40,6 +37,9 @@ class Searchbar extends React.Component {
             value={this.state.searchQuery}
             onChange={this.handleInputChange}
           />
+          <button type="submit" className={css["SearchForm-button"]}>
+            <span className={css["SearchForm-button-label"]}>Search</span>
+          </button>
         </form>
       </header>
     )
