@@ -31,7 +31,7 @@ class Modal extends React.Component {
     return (
       createPortal(
         <div className={css.Overlay} onClick={this.handleClickBackdrop}>
-          <div class={css.Modal}>
+          <div className={css.Modal}>
             {this.props.children}
           </div>
         </div>
